@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: microbot
+  name: vm-cluster
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: microbot
+  template:
+    metadata:
+      labels:
+        app: microbot
+    spec:
+      containers:
+      - name: microbot
+        image: dontrebootme/microbot:v1
+        resources:
+          limits:
+            memory: "2G"
+            cpu: "500m"
+        livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 1
+---
+  apiVersion: v1
+  kind: Service
+  metadata:
+    labels:
+      app: microbot
+    name: microbot-service
+  spec:
+    selector:
+      app: microbot
+    type: NodePort
+    ports:
+    - port: 80
+      targetPort: 80
+  
