@@ -40,6 +40,8 @@ multipass mount ~/nodejoinfiles master
 multipass mount ~/nodejoinfiles worker-1
 multipass mount ~/nodejoinfiles worker-2
 
+cd ~/nodejoinfiles
+
 git clone https://github.com/PandaJoey/vm-cluster-test/blob/master/CheckWorking.sh
 git clone https://github.com/PandaJoey/vm-cluster-test/blob/master/MultipassCluster.sh
 git clone https://github.com/PandaJoey/vm-cluster-test/blob/master/cleanup.sh
@@ -47,9 +49,6 @@ git clone https://github.com/PandaJoey/vm-cluster-test/blob/master/mastersetup.s
 git clone https://github.com/PandaJoey/vm-cluster-test/blob/master/vmcluster.yaml
 git clone https://github.com/PandaJoey/vm-cluster-test/blob/master/worker1setup.sh
 git cline https://github.com/PandaJoey/vm-cluster-test/blob/master/worker2setup.sh
-
-
-
 
 ## everything from here needs to be in yaml
 echo "###################"
