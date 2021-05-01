@@ -25,6 +25,9 @@ spec:
         envFrom:
           - 
         image: dontrebootme/microbot:v1
+        command:
+        volumeMounts:
+          - ~/nodejoinfiles master
         imagePullPolicy:
         resources:
           limits:
