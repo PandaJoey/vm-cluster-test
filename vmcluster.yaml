@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+  labels:
+  name: vm-cluster
+  namespace:
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: vm-cluster
+  template:
+    metadata:
+      labels:
+        app: vm-cluster
+    spec:
+      containers:
+      - name: vm-cluster
+        args:
+          - -cpus
+          - "4"
+        env:
+          -
+        envFrom:
+          - 
+        image: dontrebootme/microbot:v1
+        imagePullPolicy:
+        resources:
+          limits:
+            memory: "2Gi"
+            cpu: "4"
+          requests:
+            memory: "1Gi"
+            cpu: "2"
+        ports:
+         - containerPort: 80
+         - hostIP:
+         - hostPort:
+         - name:
+         - protocol:
+        livenessProbe:
+          exec:
+            -
+          failureThreshhold: 
+          httpGet:
+            -
+          initialDelaySeconds: 
+          periodSeconds:
+          sucessThreshhold:
+          tcpSocket:
+            -
+          timeoutSeconds:
+      nodeName: "master"
+      nodeSelector:
+      priority:
+      serviceAccountName:
+      
+      volumes:
+        awsElstickBlockStore:
+          -
+        azureDisk:
+          -
+        azureFile:
+          - 
+        configMaps:
+          - 
+        emptyDir:
+          - 
+        ephemeral:
+          - 
+        flexVolume:
+          - 
+        gitRepo:
+          - 
+        name: ""
+        nfs:
+          - 
+        persistentVolumeClaim:
+          - 
+        secret:
+          - 
+        
+
