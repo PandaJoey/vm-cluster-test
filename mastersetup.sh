@@ -2,6 +2,7 @@ echo "####################"
 echo "installing microk8s"
 echo "####################"
 #install required files
+sudo apt update -y && sudo upgrade -y
 sudo snap install microk8s --classic --channel=1.18/stable
 microk8s status --wait-ready
 sudo usermod -a -G microk8s ubuntu
