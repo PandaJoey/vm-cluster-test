@@ -6,17 +6,22 @@ echo "###############"
 echo "script starting"
 echo "###############"
 
+echo "############"
+echo "cding back to root"
+echo "############"
 
+cd ~/
 
 echo "############"
 echo "snap install"
 echo "############"
+
 sudo snap install multipass
 
 echo "#####################"
 echo "making script sleept"
 echo "#####################"
-sleep 30s
+sleep 20s
 #create vms
 echo "#############"
 echo "creating vm's"
@@ -42,13 +47,7 @@ multipass mount ~/nodejoinfiles worker-2
 
 cd ~/nodejoinfiles
 
-git clone https://github.com/PandaJoey/vm-cluster-test/blob/master/CheckWorking.sh
-git clone https://github.com/PandaJoey/vm-cluster-test/blob/master/MultipassCluster.sh
-git clone https://github.com/PandaJoey/vm-cluster-test/blob/master/cleanup.sh
-git clone https://github.com/PandaJoey/vm-cluster-test/blob/master/mastersetup.sh
-git clone https://github.com/PandaJoey/vm-cluster-test/blob/master/vmcluster.yaml
-git clone https://github.com/PandaJoey/vm-cluster-test/blob/master/worker1setup.sh
-git cline https://github.com/PandaJoey/vm-cluster-test/blob/master/worker2setup.sh
+git clone https://github.com/PandaJoey/vm-cluster-test.git
 
 ## everything from here needs to be in yaml
 echo "###################"
