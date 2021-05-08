@@ -1,3 +1,5 @@
+#!/bin/bash
+
 echo "####################"
 echo "installing microk8s"
 echo "####################"
