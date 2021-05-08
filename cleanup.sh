@@ -1,3 +1,5 @@
+#!/bin/bash
+
 echo "####################"
 echo "unmounting drives."
 echo "####################"
