@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 echo "####################"
 echo "checking it worked"
 echo "####################"
