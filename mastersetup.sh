@@ -14,13 +14,13 @@ echo "#########################"
 echo "creating node join file 1"
 echo "#########################"
 # add nodes to get info needs to somehow get the users name probably need to get inout
-sudo microk8s add-node | grep  "microk8s join" | grep -v "node with"| head -1 > /home/dev/nodejoinfiles/node1
+sudo microk8s add-node | grep  "microk8s join" | grep -v "node with"| head -1 > /home/dev/dockerstuff/OwnScripts/vagrantcluster/node1
 
 echo "#########################"
 echo "creating node join file 2"
 echo "#########################"
 
-sudo microk8s add-node | grep  "microk8s join" | grep -v "node with"| head -1 > /home/dev/nodejoinfiles/node2
+sudo microk8s add-node | grep  "microk8s join" | grep -v "node with"| head -1 > /home/dev/dockerstuff/OwnScripts/vagrantcluster/node2
 
 # save files from vm to pc
 exit
