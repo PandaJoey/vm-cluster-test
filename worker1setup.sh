@@ -16,9 +16,9 @@ echo "running join command"
 echo "####################"
 #get first join file to join cluster
 # somehow make it wait to join the cluster before exiting.
-sudo chmod +x /home/dev/dockerstuff/OwnScripts/vagrantcluster/node1
+sudo chmod +x /home/node1
 #could also exit and renter here to not have to sudo
-cd /home/dev/dockerstuff/OwnScripts/vagrantcluster/
+cd /home
 
 sudo ./node1
 
