@@ -14,8 +14,8 @@ echo "running join command"
 echo "####################"
 #get first join file to join cluster
 # somehow make it wait to join the cluster before exiting.
-sudo chmod +x /home/dev/nodejoinfiles/node2
-cd /home/dev/nodejoinfiles/
+sudo chmod +x /home/dev/dockerstuff/OwnScripts/vagrantcluster/node2
+cd /home/dev/dockerstuff/OwnScripts/vagrantcluster/
 sudo ./node2
 
 exit
