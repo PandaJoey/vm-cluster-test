@@ -5,7 +5,7 @@ echo "installing microk8s"
 echo "####################"
 #install required files
 sudo snap install microk8s --classic --channel=1.18/stable
-microk8s status --wait-ready
+sudo microk8s status --wait-ready
 sudo usermod -a -G microk8s ubuntu
 sudo chown -f -R ubuntu ~/.kube
 
@@ -18,7 +18,7 @@ sudo chown -f -R ubuntu ~/.kube
 #sed -i -e 's/#DNS=/DNS=8.8.8.8/' /etc/systemd/resolved.conf
 
 # Update /etc/hosts about other hosts
-cat >> /etc/hosts <<EOF
+sudo cat >> /etc/hosts <<EOF
 192.168.33.13 master
 192.168.33.14 worker-1
 192.168.33.15 worker-2
