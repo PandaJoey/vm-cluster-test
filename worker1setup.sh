@@ -12,20 +12,20 @@ sudo usermod -a -G microk8s ubuntu
 sudo chown -f -R ubuntu ~/.kube
 
 
-IFNAME=$1
-ADDRESS="$(ip -4 addr show $IFNAME | grep "inet" | head -1 |awk '{print $2}' | cut -d/ -f1)"
-sed -e "s/^.*${HOSTNAME}.*/${ADDRESS} ${HOSTNAME} ${HOSTNAME}.local/" -i /etc/hosts
+#IFNAME=$1
+#ADDRESS="$(ip -4 addr show $IFNAME | grep "inet" | head -1 |awk '{print $2}' | cut -d/ -f1)"
+#sed -e "s/^.*${HOSTNAME}.*/${ADDRESS} ${HOSTNAME} ${HOSTNAME}.local/" -i /etc/hosts
 
 # remove ubuntu-bionic entry
-sed -e '/^.*ubuntu-focal64.*/d' -i /etc/hosts
-sed -i -e 's/#DNS=/DNS=8.8.8.8/' /etc/systemd/resolved.conf
+#sed -e '/^.*ubuntu-focal64.*/d' -i /etc/hosts
+#sed -i -e 's/#DNS=/DNS=8.8.8.8/' /etc/systemd/resolved.conf
 
 # Update /etc/hosts about other hosts
-cat >> /etc/hosts <<EOF
-192.168.33.13 master
-192.168.33.14 worker-1
-192.168.33.15 worker-2
-EOF
+#cat >> /etc/hosts <<EOF
+#192.168.33.13 master
+#192.168.33.14 worker-1
+#192.168.33.15 worker-2
+#EOF
 
 
 echo "####################"
