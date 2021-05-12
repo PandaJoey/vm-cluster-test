@@ -25,15 +25,15 @@ sudo chown -f -R ubuntu ~/.kube
 #sudo sed -i -e 's/#DNS=/DNS=8.8.8.8/' /etc/systemd/resolved.conf
 
 
-#echo "####################"
-#echo "updating hosts"
-#echo "####################"
+echo "####################"
+echo "updating hosts"
+echo "####################"
 # Update /etc/hosts about other hosts
-#cat >> /etc/hosts <<EOF
-#192.168.33.13 master
-#192.168.33.14 worker-1
-#192.168.33.15 worker-2
-#EOF
+cat >> /etc/hosts <<EOF
+192.168.33.13 master
+192.168.33.14 worker-1
+192.168.33.15 worker-2
+EOF
 
 #echo "####################"
 #echo "restarting the resolved host."
