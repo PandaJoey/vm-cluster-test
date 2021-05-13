@@ -44,13 +44,13 @@ echo "#########################"
 echo "creating node join file 1"
 echo "#########################"
 # add nodes to get info needs to somehow get the users name probably need to get inout
-sudo microk8s add-node | grep  "microk8s join" | grep -v "node with"| head -1 > /home/node1
-
+#sudo microk8s add-node | grep  "microk8s join" | grep -v "node with"| head -1 > /home/node1
+sudo microk8s add-node > /home/node1
 echo "#########################"
 echo "creating node join file 2"
 echo "#########################"
 
-sudo microk8s add-node | grep  "microk8s join" | grep -v "node with"| head -1 > /home/node2
-
+#sudo microk8s add-node | grep  "microk8s join" | grep -v "node with"| head -1 > /home/node2
+sudo microk8s add-node > /home/node2
 # save files from vm to pc
 exit
