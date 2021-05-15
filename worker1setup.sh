@@ -32,16 +32,18 @@ EOF
 echo "####################"
 echo "running join command"
 echo "####################"
-if [ $HOSTNAME = worker-1 ]
+#!bin/bash
+
+if [ "$HOSTNAME" = "worker-1" ]
 then
     echo "worker-1"
     sudo chmod +x /vagrant/node1
-    cd /vagrant/
+    cd /vagrant/ || exit
     sudo ./node1
 else
     echo "worker-2"
     sudo chmod +x /vagrant/node2
-    cd /vagrant/
+    cd /vagrant/  || exit
     sudo ./node2
-
+fi
 exit
