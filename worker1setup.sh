@@ -8,16 +8,16 @@ sudo apt update -y
 sudo apt upgrade -y
 sudo snap install microk8s --classic --channel=1.18/stable
 sudo microk8s status --wait-ready
-sudo usermod -a -G microk8s ubuntu
-sudo chown -f -R ubuntu ~/.kube
+sudo usermod -a -G microk8s vagrant
+sudo chown -f -R vagrant ~/.kube
 
 echo "##################################################"
 echo "setting up kubernetes cluster and management"
 echo "##################################################"
-sudo source <(kubectl completion bash) # setup autocomplete in bash into the current shell, bash-completion package should be installed first.
-sudo echo "source <(kubectl completion bash)" >> ~/.bashrc # add autocomplete permanently to your bash shell.
-sudo alias k=kubectl
-sudo complete -F __start_kubectl k
+#sudo source <(kubectl completion bash) # setup autocomplete in bash into the current shell, bash-completion package should be installed first.
+#sudo echo "source <(kubectl completion bash)" >> ~/.bashrc # add autocomplete permanently to your bash shell.
+#sudo alias k=kubectl
+#sudo complete -F __start_kubectl k
 
 echo "#######################"
 echo "editing hosts files"
