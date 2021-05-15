@@ -14,10 +14,10 @@ sudo chown -f -R ubuntu ~/.kube
 echo "##################################################"
 echo "setting up kubernetes cluster and management"
 echo "##################################################"
-source <(kubectl completion bash) # setup autocomplete in bash into the current shell, bash-completion package should be installed first.
-echo "source <(kubectl completion bash)" >> ~/.bashrc # add autocomplete permanently to your bash shell.
-alias k=kubectl
-complete -F __start_kubectl k
+sudo source <(kubectl completion bash) # setup autocomplete in bash into the current shell, bash-completion package should be installed first.
+sudo echo "source <(kubectl completion bash)" >> ~/.bashrc # add autocomplete permanently to your bash shell.
+sudo alias k=kubectl
+sudo complete -F __start_kubectl k
 
 echo "#######################"
 echo "editing hosts files"

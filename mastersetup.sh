@@ -37,11 +37,14 @@ sudo microk8s add-node | grep "192." > /home/node2
 echo "##################################################"
 echo "setting up kubernetes cluster and management"
 echo "##################################################"
-source <(kubectl completion bash) # setup autocomplete in bash into the current shell, bash-completion package should be installed first.
-echo "source <(kubectl completion bash)" >> ~/.bashrc # add autocomplete permanently to your bash shell.
-alias k=kubectl
-complete -F __start_kubectl k
+sudo source <(kubectl completion bash) # setup autocomplete in bash into the current shell, bash-completion package should be installed first.
+sudo echo "source <(kubectl completion bash)" >> ~/.bashrc # add autocomplete permanently to your bash shell.
+sudo alias k=kubectl
+sudo complete -F __start_kubectl k
 
-kubectl apply -f  https://raw.githubusercontent.com/PandaJoey/vm-cluster-test/master/vmcluster.yaml
+echo "##################################################"
+echo "running kubectl apply"
+echo "##################################################"
+sudo microk8s kubectl apply -f  https://raw.githubusercontent.com/PandaJoey/vm-cluster-test/master/vmcluster.yaml
 
 exit
