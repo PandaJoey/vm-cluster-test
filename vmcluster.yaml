@@ -19,7 +19,7 @@ spec:
         image: dontrebootme/microbot:v1
         resources:
           limits:
-            memory: "2G"
+            memory: "1G"
             cpu: "500m"
         livenessProbe:
             httpGet:
