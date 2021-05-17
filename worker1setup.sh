@@ -10,6 +10,8 @@ sudo snap install microk8s --classic --channel=1.18/stable
 sudo microk8s status --wait-ready
 sudo usermod -a -G microk8s vagrant
 sudo chown -f -R vagrant ~/.kube
+sudo alias mkctl="microk8s kubectl"
+sudo microk8s enable dashboard dns registry istio
 
 echo "##################################################"
 echo "setting up kubernetes cluster and management"
