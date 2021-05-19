@@ -2,28 +2,28 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: microbot
-  name: vm-cluster
+    app: nginx-deployment
+  name: nginx-deployment
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: microbot
+      app: nginx-deployment
   template:
     metadata:
       labels:
-        app: microbot
+        app: nginx-deployment
     spec:
       containers:
-      - name: microbot
-        image: dontrebootme/microbot:v1
+      - name: nginx-deployment
+        image: nginx:latest
         resources:
           limits:
             memory: "1G"
             cpu: "500m"
         livenessProbe:
             httpGet:
-              path: /
+              path: /vagrant
               port: 80
             initialDelaySeconds: 10
             periodSeconds: 1
@@ -32,13 +32,14 @@ spec:
   kind: Service
   metadata:
     labels:
-      app: microbot
-    name: microbot-service
+      app: nginx-nodeport
+    name: nginx-nodeport
   spec:
     selector:
-      app: microbot
+      app: nginx-nodeport
     type: NodePort
     ports:
     - port: 80
-      targetPort: 80
+      targetPort: 8080
+      nodePort: 31000
   
