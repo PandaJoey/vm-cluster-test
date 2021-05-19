@@ -1,0 +1,564 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# All Vagrant configuration is done below. The "2" in Vagrant.configure
+# configures the configuration version (we support older styles for
+# backwards compatibility). Please don't change it unless you know what
+# you're doing.
+Vagrant.configure("2") do |config|
+  # The most common configuration options are documented and commented below.
+  # For a complete reference, please see the online documentation at
+  # https://docs.vagrantup.com.
+
+  # Every Vagrant development environment requires a box. You can search for
+  # boxes at https://vagrantcloud.com/search.
+  config.vm.box = "bento/ubuntu-20.04"
+  config.vm.box_check_update = true
+  config.vm.allow_fstab_modification = false
+  config.vm.allow_hosts_modification = true
+  config.vm.base_address = "192.168.0.11"
+  config.vm.boot_timeout = 200
+  config.vm.box_download_checksum = ""
+  config.vm.box_download_client_cert = ""
+  config.vm.box_download_ca_cert = ""
+  config.vm.box_download_ca_path = ""
+  config.vm.box_download_options = {}
+  config.vm.box_download_insecure = false
+  config.vm.box_download_location_trusted = true
+  config.vm.communicator = "ssh, winrm"
+  config.vm.disk
+  config.vm.graceful_halt_timeout = 60
+  config.vm.guest = ":linux, :windows6+"
+  config.vm.hostname = "master"
+  config.vm.ignore_box_vagrantfile = false
+  config.vm.network = ""
+  config.vm.post_up_message = ""
+  config.vm.provider = "multipass"
+
+  config.vm.synced_folder = ""
+  config.vm.usable_port_range
+  
+  #######################
+  #provisioning commands.
+  #######################
+  config.vm.provision "shell", inline: "echo hello"
+  
+  config.vm.provision "shell" do |s|
+    s.inline = "echo hello"
+  end
+
+  config.vm.provision "bootstrap", type: "shell" do |s|
+    s.inline = "echo hello"
+  end
+
+  config.vm.provision "shell", inline: "echo hello",
+  run: "always"
+
+  config.vm.provision "bootstrap", type: "shell", run: "never" do |s|
+    s.inline = "echo hello"
+  end
+
+
+  ####################
+  # Provisioning files
+  ####################
+  config.vm.provision "file", source: "~/.gitconfig", destination: ".gitconfig"
+  end
+
+  config.vm.provision "file", source: "~/path/to/host/folder", destination: "$HOME/remote/newfolder"
+  end
+
+  #using scripts
+  $script = <<-SCRIPT
+  echo I am provisioning...
+  date > /etc/vagrant_provisioned_at
+  SCRIPT
+
+  
+    config.vm.provision "shell", inline: $script
+  end
+  
+  
+  #path to scripts
+  Vagrant.configure("2") do |config|
+    config.vm.provision "shell", path: "script.sh"
+  end
+
+  #using url for git or soemthing
+  Vagrant.configure("2") do |config|
+    config.vm.provision "shell", path: "https://example.com/provisioner.sh"
+  end
+
+
+  #direct path from host to guest
+  Vagrant.configure("2") do |config|
+    config.vm.provision "shell",
+      inline: "/bin/sh /path/to/the/script/already/on/the/guest.sh"
+  end
+
+  #setting a environment variable.
+  Vagrant.configure("2") do |config|
+    config.vm.provision "shell" do |s|
+      s.inline = "echo $1"
+      s.args   = "'hello, world!'"
+    end
+  end
+
+ #another way to do variables.
+  Vagrant.configure("2") do |config|
+    config.vm.provision "shell" do |s|
+      s.inline = "echo $1"
+      s.args   = ["hello, world!"]
+    end
+  end
+
+
+  #####################
+  #docker provisioning.
+  #####################
+  Vagrant.configure("2") do |config|
+    config.vm.provision "docker" do |d|
+      d.build_image "/vagrant/app"
+    end
+  end
+
+  #getting a docker image
+  Vagrant.configure("2") do |config|
+    config.vm.provision "docker",
+      images: ["ubuntu"]
+  end
+
+  #getting multiple images
+  Vagrant.configure("2") do |config|
+    config.vm.provision "docker" do |d|
+      d.pull_images "ubuntu"
+      d.pull_images "vagrant"
+    end
+  end
+
+
+  # running a docker container
+  Vagrant.configure("2") do |config|
+    config.vm.provision "docker" do |d|
+      d.run "rabbitmq"
+    end
+  end
+
+  # shared volume
+  Vagrant.configure("2") do |config|
+    config.vm.provision "docker" do |d|
+      d.run "ubuntu",
+        cmd: "bash -l",
+        args: "-v '/vagrant:/var/www'"
+    end
+  end
+
+  # multi container
+  Vagrant.configure("2") do |config|
+    config.vm.provision "docker" do |d|
+      d.run "db-1", image: "user/mysql"
+      d.run "db-2", image: "user/mysql"
+    end
+  end
+
+  #customising docker
+  Vagrant.configure("2") do |config|
+    config.vm.provision "docker" do |d|
+      d.post_install_provision "shell", inline:"echo export http_proxy='http://127.0.0.1:3128/' >> /etc/default/docker"
+      d.run "ubuntu",
+        cmd: "bash -l",
+        args: "-v '/vagrant:/var/www'"
+    end
+  end
+
+  #######################
+  # networking in vagrant
+  #######################
+  Vagrant.configure("2") do |config|
+    # ...
+    config.vm.network "forwarded_port", guest: 80, host: 8080
+  end
+
+  #host names
+  Vagrant.configure("2") do |config|
+    # ...
+    config.vm.hostname = "myhost.local"
+  end
+
+  # private network
+  Vagrant.configure("2") do |config|
+    # ...
+    config.vm.hostname = "myhost.local"
+    config.vm.network "public_network", ip: "192.168.0.1", hostname: true
+    config.vm.network "public_network", ip: "192.168.0.2"
+  end
+
+
+  # port forward protocols
+  Vagrant.configure("2") do |config|
+   config.vm.network "forwarded_port", guest: 2003, host: 12003, protocol: "tcp"
+   config.vm.network "forwarded_port", guest: 2003, host: 12003, protocol: "udp"
+  end
+
+  #port collition and correction
+
+  Vagrant.configure("2") do |config|
+    config.vm.network "forwarded_port", guest: 80, host: 8080,
+      auto_correct: true
+  end
+
+  #####################
+  #private network dhcp
+  #####################
+  Vagrant.configure("2") do |config|
+    config.vm.network "private_network", type: "dhcp"
+  end
+
+  #static ips
+  Vagrant.configure("2") do |config|
+    config.vm.network "private_network", ip: "192.168.50.4"
+  end
+
+  #ipv6
+  Vagrant.configure("2") do |config|
+    config.vm.network "private_network", ip: "fde4:8dba:82e1::c4"
+  end
+
+  #changing netmask option
+  Vagrant.configure("2") do |config|
+    config.vm.network "private_network",
+      ip: "fde4:8dba:82e1::c4",
+      netmask: "96"
+  end
+
+  #disable auto network config
+  Vagrant.configure("2") do |config|
+    config.vm.network "private_network", ip: "192.168.50.4",
+      auto_config: false
+  end
+
+
+  ################
+  #public networks
+  ################
+  Vagrant.configure("2") do |config|
+    config.vm.network "public_network"
+  end
+
+  #dhcp with assinged default route
+  Vagrant.configure("2") do |config|
+    config.vm.network "public_network",
+      use_dhcp_assigned_default_route: true
+  end
+
+  #default network interface
+  config.vm.network "public_network", bridge: "en1: Wi-Fi (AirPort)"
+
+  #with list of providers
+  config.vm.network "public_network", bridge: [
+  "en1: Wi-Fi (AirPort)",
+  "en6: Broadcom NetXtreme Gigabit Ethernet Controller",
+  ]
+
+  #disable auto config
+  Vagrant.configure("2") do |config|
+    config.vm.network "public_network", auto_config: false
+  end
+
+  #provisioned ips
+
+  Vagrant.configure("2") do |config|
+    config.vm.network "public_network", auto_config: false
+  
+    # manual ip
+    config.vm.provision "shell",
+      run: "always",
+      inline: "ifconfig eth1 192.168.0.17 netmask 255.255.255.0 up"
+  
+    # manual ipv6
+    config.vm.provision "shell",
+      run: "always",
+      inline: "ifconfig eth1 inet6 add fc00::17/7"
+  end
+
+  #################
+  # synced folders
+  #################
+
+  # basic config
+  Vagrant.configure("2") do |config|
+    # other config here
+  
+    config.vm.synced_folder "src/", "/srv/website"
+  end
+
+  #disabling synced folders
+  Vagrant.configure("2") do |config|
+    config.vm.synced_folder "src/", "/srv/website", disabled: true
+  end
+
+  #disabling default share
+  config.vm.synced_folder ".", "/vagrant", disabled: true
+
+  #setting owner and group for specific folder 
+  config.vm.synced_folder "src/", "/srv/website",
+  owner: "root", group: "root"
+
+  #has precidence over above
+  config.vm.synced_folder ".", "/vagrant", owner: "vagrant",
+  group: "vagrant", mount_options: ["uid=1234", "gid=1234"]
+
+  #nfs folders
+  Vagrant.configure("2") do |config|
+    config.vm.synced_folder ".", "/vagrant", type: "nfs"
+  end
+
+  #rsync with folders
+  Vagrant.configure("2") do |config|
+    config.vm.synced_folder ".", "/vagrant", type: "rsync",
+      rsync__exclude: ".git/"
+  end
+
+  #rsync to rtestricted folders
+  Vagrant.configure("2") do |config|
+    config.vm.synced_folder "bin", "/usr/local/bin", type: "rsync",
+      rsync__exclude: ".git/",
+      rsync__args: ["--verbose", "--rsync-path='sudo rsync'", "--archive", "--delete", "-z"]
+  end
+
+
+  ################
+  # defining disks
+  ################
+  config.vm.disk :disk, name: "backup", size: "10GB"
+  config.vm.disk :dvd, name: "installer", path: "./installer.iso"
+  config.vm.disk :floppy, name: "cool_files"
+
+  #expanding default storage
+  Vagrant.configure("2") do |config|
+    config.vm.define "hashicorp" do |h|
+      h.vm.box = "hashicorp/bionic64"
+      h.vm.provider :virtualbox
+  
+      h.vm.disk :disk, size: "100GB", primary: true
+    end
+  end
+
+  #attaching new hdds
+  Vagrant.configure("2") do |config|
+    config.vm.define "hashicorp" do |h|
+      h.vm.box = "hashicorp/bionic64"
+      h.vm.provider :virtualbox
+  
+      h.vm.disk :disk, size: "10GB", name: "extra_storage"
+    end
+  end
+
+  # addint multiple disks
+  Vagrant.configure("2") do |config|
+    config.vm.define "hashicorp" do |h|
+      h.vm.box = "hashicorp/bionic64"
+      h.vm.provider :virtualbox
+  
+      (0..3).each do |i|
+        h.vm.disk :disk, size: "5GB", name: "disk-#{i}"
+      end
+    end
+  end
+
+  # adding optical drives like iso
+  Vagrant.configure("2") do |config|
+    config.vm.define "hashicorp" do |h|
+      h.vm.box = "hashicorp/bionic64"
+      h.vm.provider :virtualbox
+  
+      h.vm.disk :dvd, name: "installer", file: "./installer.iso"
+    end
+  end
+
+
+  ########################
+  # multi-machine examples
+  ########################
+
+  Vagrant.configure("2") do |config|
+    config.vm.provision "shell", inline: "echo Hello"
+  
+    config.vm.define "web" do |web|
+      web.vm.box = "apache"
+    end
+  
+    config.vm.define "db" do |db|
+      db.vm.box = "mysql"
+    end
+  end
+
+  #examplke of provisioners working outside in
+   #prints a ,c, b
+  Vagrant.configure("2") do |config|
+    config.vm.provision :shell, inline: "echo A"
+  
+    config.vm.define :testing do |test|
+      test.vm.provision :shell, inline: "echo B"
+    end
+  
+    config.vm.provision :shell, inline: "echo C"
+  end
+
+  #specifiying the primary machine
+  config.vm.define "web", primary: true do |web|
+    # ...
+  end
+
+  ######################
+  # provider configurations
+  ######################
+
+  Vagrant.configure("2") do |config|
+    # ...
+  
+    config.vm.provider "virtualbox" do |vb|
+      vb.customize ["modifyvm", :id, "--cpuexecutioncap", "50"]
+    end
+  end
+
+  # overriding configurations
+  Vagrant.configure("2") do |config|
+    config.vm.box = "bionic64"
+  
+    config.vm.provider "vmware_fusion" do |v, override|
+      override.vm.box = "bionic64_fusion"
+    end
+  end
+
+  # virtualbox gui vs no gui
+  config.vm.provider "virtualbox" do |v|
+    v.gui = true
+  end
+
+  # virtual machine naming
+  config.vm.provider "virtualbox" do |v|
+    v.name = "my_vm"
+  end
+
+  # default nic type
+  config.vm.provider "virtualbox" do |v|
+    v.default_nic_type = "82543GC"
+  end
+
+  #linked clones
+  config.vm.provider "virtualbox" do |v|
+    v.linked_clone = true
+  end
+
+  # back wards compatability 
+  config.vm.provider "virtualbox" do |v|
+    v.linked_clone = true if Gem::Version.new(Vagrant::VERSION) >= Gem::Version.new('1.8.0')
+  end
+
+  #vboxmanage customizations
+  config.vm.provider "virtualbox" do |v|
+    v.customize ["modifyvm", :id, "--cpuexecutioncap", "50"]
+  end
+
+  #managing cpu and memory
+  config.vm.provider "virtualbox" do |v|
+    v.memory = 1024
+    v.cpus = 2
+  end
+
+  #vb host only network
+  Vagrant.configure("2") do |config|
+    config.vm.network "private_network", type: "dhcp",
+      name: "vboxnet3"
+  end
+
+  #vb internal network
+  Vagrant.configure("2") do |config|
+    config.vm.network "private_network", ip: "192.168.50.4",
+      virtualbox__intnet: true
+  end
+
+  # how to join specific internal net
+  Vagrant.configure("2") do |config|
+    config.vm.network "private_network", ip: "192.168.50.4",
+      virtualbox__intnet: "mynetwork"
+  end
+
+  # vb nic types
+  Vagrant.configure("2") do |config|
+    config.vm.network "private_network", ip: "192.168.50.4",
+      nic_type: "virtio"
+  end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  # Disable automatic box update checking. If you disable this, then
+  # boxes will only be checked for updates when the user runs
+  # `vagrant box outdated`. This is not recommended.
+  # config.vm.box_check_update = false
+
+  # Create a forwarded port mapping which allows access to a specific port
+  # within the machine from a port on the host machine. In the example below,
+  # accessing "localhost:8080" will access port 80 on the guest machine.
+  # NOTE: This will enable public access to the opened port
+  # config.vm.network "forwarded_port", guest: 80, host: 8080
+
+  # Create a forwarded port mapping which allows access to a specific port
+  # within the machine from a port on the host machine and only allow access
+  # via 127.0.0.1 to disable public access
+  # config.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
+
+  # Create a private network, which allows host-only access to the machine
+  # using a specific IP.
+  # config.vm.network "private_network", ip: "192.168.33.10"
+
+  # Create a public network, which generally matched to bridged network.
+  # Bridged networks make the machine appear as another physical device on
+  # your network.
+  # config.vm.network "public_network"
+
+  # Share an additional folder to the guest VM. The first argument is
+  # the path on the host to the actual folder. The second argument is
+  # the path on the guest to mount the folder. And the optional third
+  # argument is a set of non-required options.
+  # config.vm.synced_folder "../data", "/vagrant_data"
+
+  # Provider-specific configuration so you can fine-tune various
+  # backing providers for Vagrant. These expose provider-specific options.
+  # Example for VirtualBox:
+  #
+  # config.vm.provider "virtualbox" do |vb|
+  #   # Display the VirtualBox GUI when booting the machine
+  #   vb.gui = true
+  #
+  #   # Customize the amount of memory on the VM:
+  #   vb.memory = "1024"
+  # end
+  #
+  # View the documentation for the provider you are using for more
+  # information on available options.
+
+  # Enable provisioning with a shell script. Additional provisioners such as
+  # Ansible, Chef, Docker, Puppet and Salt are also available. Please see the
+  # documentation for more information about their specific syntax and use.
+  # config.vm.provision "shell", inline: <<-SHELL
+  #   apt-get update
+  #   apt-get install -y apache2
+  # SHELL
+end
